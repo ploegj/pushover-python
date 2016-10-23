@@ -51,8 +51,8 @@ class Pushover(object):
             "user": self.user,
             "title": str_title,
             "message": str_message,
-            "priority": priority,
-            "sound": sound,
+            "priority": int_priority,
+            "sound": str_sound,
         }
         r = requests.post("https://api.pushover.net/1/messages.json", data=payload)
         if not r.status_code == requests.codes.ok:
@@ -63,17 +63,17 @@ class Pushover(object):
 
 if __name__ == '__main__':
     import os
-    import pickle
+    import json
 
     data_loaded = False
-    # For ease of use or testing you can save the user and token in a pickle
+    # For ease of use or testing you can save the user and token in a json datafile
     script_path = os.path.dirname(sys.argv[0])
-    pickle_file = 'pushover.pickle'
-    if os.path.isfile(script_path + '/' + pickle_file):
-        with open(script_path + '/' + pickle_file, 'rb') as f:
+    json_file = 'pushover.json'
+    if os.path.isfile(script_path + '/' + json_file):
+        with open(script_path + '/' + json_file, 'r') as input_json:
             # The protocol version used is detected automatically, so we do not
             # have to specify it.
-            pushover_data = pickle.load(f)
+            pushover_data = json.load(input_json)
             print('type ;', type(pushover_data))
             data_loaded = True
 
@@ -85,6 +85,7 @@ if __name__ == '__main__':
     else:
         user = input('Enter pushover user :')
         token = input('Enter pushover token :')
+        message = input('Enter message :')
         if (len(user) == 0) or (len(token) == 0):
             sys.exit("user or token is empty")
 
@@ -96,4 +97,5 @@ if __name__ == '__main__':
     else:
         print('valid user')
 
-    print(my_pushover.send_message(str_title='', str_message='message 4', int_priority=-1))
+    message = 'testing pushover'
+    print(my_pushover.send_message(str_title='', str_message=message, int_priority=-1))
