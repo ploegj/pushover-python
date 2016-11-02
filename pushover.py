@@ -66,7 +66,7 @@ if __name__ == '__main__':
     import json
 
     data_loaded = False
-    # For ease of use or testing you can save the user and token in a json datafile
+    # For ease of use or testing you can save the user and token in a json datafile.
     script_path = os.path.dirname(sys.argv[0])
     json_file = 'pushover.json'
     if os.path.isfile(script_path + '/' + json_file):
